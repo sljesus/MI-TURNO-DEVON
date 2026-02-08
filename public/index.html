@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Devon Turnos</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Join Section -->
+        <div id="join-section">
+            <h1>🐾 Devon VET - Turnos</h1>
+            <p>Saca tu turno para la veterinaria</p>
+            
+            <form id="join-form" class="join-form">
+                <label for="pet-name">Nombre de la Mascota (Requerido):</label>
+                <input type="text" id="pet-name" placeholder="Ej: Fido, Luna, Max" required autocomplete="off">
+                
+                <label for="owner-name">Tu Nombre (Opcional):</label>
+                <input type="text" id="owner-name" placeholder="Ej: Juan Pérez" autocomplete="off">
+                
+                <button type="submit" class="btn-primary">🐾 SACAR TURNO</button>
+            </form>
+        </div>
+
+        <!-- Status Section -->
+        <div id="list-section" class="hidden">
+            <div class="status-display">
+                <div class="now-serving">
+                    <h2>🏥 ATENDIENDO AHORA</h2>
+                    <div class="big-number" id="now-serving-number">--</div>
+                    <div class="pet-name" id="now-serving-name">Nadie atendiendo</div>
+                </div>
+
+                <div id="my-turn-card" class="my-turn-card" style="display: none;">
+                    <h3>🎫 MI TURNO</h3>
+                    <div class="turn-number" id="my-turn-number">--</div>
+                    <div id="my-turn-msg">Espera atento...</div>
+                </div>
+            </div>
+
+            <div class="queue-section">
+                <h3>⏳ COLA DE ESPERA</h3>
+                <ul id="queue-list" class="queue-list">
+                    <!-- Lista dinámica -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Help -->
+    <footer id="app-footer">
+        <button id="help-btn" class="help-btn">🆘 AYUDAR A ALGUIEN A SACAR TURNO</button>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

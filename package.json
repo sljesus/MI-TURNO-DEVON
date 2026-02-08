@@ -1,0 +1,42 @@
+{
+  "name": "devon-vet-turnos",
+  "version": "1.0.0",
+  "description": "Sistema de turnos veterinarios con actualización en tiempo real",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx http-server public -p 8000 -a 0.0.0.0",
+    "dev": "npx http-server public -p 8000 -a 0.0.0.0 --cors",
+    "build": "echo 'No build process needed for static files'",
+    "serve": "http-server public -p 8000 -a 0.0.0.0",
+    "migrate": "powershell -ExecutionPolicy Bypass -File migrate.ps1",
+    "migrate:bash": "bash migrate.sh",
+    "migrate:check": "supabase db diff",
+    "migrate:status": "supabase db remote changes",
+    "migrate:shell": "supabase db shell"
+  },
+  "keywords": [
+    "veterinary",
+    "turns",
+    "queue",
+    "supabase",
+    "realtime",
+    "web-app",
+    "mexico"
+  ],
+  "author": "Devon VET Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/devon-vet-turnos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/devon-vet-turnos/issues"
+  },
+  "homepage": "https://github.com/your-username/devon-vet-turnos#readme"
+}

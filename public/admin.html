@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Devon VET - Panel de Control</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            border-top: 15px solid #1e3a8a;
+        }
+
+        .admin-card {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            border: 4px solid #1e3a8a;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-danger {
+            background-color: #dc2626;
+            font-size: 1.8rem;
+            padding: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+            border: 4px solid #991b1b;
+            border-radius: 15px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            min-height: 80px;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-danger:active {
+            background-color: #991b1b;
+            transform: translateY(0);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 15px 25px;
+            border-radius: 15px;
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            font-weight: bold;
+            border: 3px solid #1e40af;
+        }
+
+        .upcoming-list {
+            margin-top: 40px;
+        }
+
+        .upcoming-list h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #000;
+        }
+
+        .upcoming-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .upcoming-list li {
+            padding: 20px;
+            border-bottom: 3px solid #374151;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            background: #f3f4f6;
+            margin-bottom: 15px;
+            border-radius: 12px;
+        }
+
+        .upcoming-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .upcoming-list li strong {
+            font-size: 20px;
+            color: #1e40af;
+        }
+
+        /* Modern Responsive Design para Panel Admin */
+        @media (max-width: 768px) {
+            .admin-card {
+                padding: clamp(20px, 5vw, 30px);
+                margin: clamp(5px, 2vw, 10px);
+            }
+            
+            h1 {
+                font-size: clamp(1.8rem, 5vw, 2.2rem);
+                text-align: center;
+            }
+            
+            .btn-danger {
+                font-size: clamp(1.2rem, 3.5vw, 1.4rem);
+                padding: clamp(20px, 5vw, 25px) clamp(15px, 4vw, 20px);
+                min-height: clamp(60px, 15vw, 70px);
+            }
+            
+            .status-badge {
+                padding: clamp(10px, 3vw, 12px) clamp(15px, 4vw, 20px);
+                font-size: clamp(1rem, 2.5vw, 1.1rem);
+            }
+            
+            .upcoming-list h3 {
+                font-size: clamp(1.3rem, 3.5vw, 1.5rem);
+            }
+            
+            .upcoming-list li {
+                padding: clamp(12px, 3vw, 15px);
+                font-size: clamp(15px, 3.5vw, 16px);
+            }
+            
+            .upcoming-list li strong {
+                font-size: clamp(16px, 4vw, 18px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .upcoming-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>👨‍⚕️ PANEL VETERINARIO</h1>
+
+        <div class="admin-card">
+            <div id="current-patient-info">
+                <span class="status-badge">🏥 ATENDIENDO AHORA</span>
+                <div class="big-number" id="admin-turn-number">--</div>
+                <div class="pet-name" id="admin-pet-name">Esperando pacientes...</div>
+            </div>
+
+            <hr style="margin: 40px 0; border: 0; border-top: 4px solid #374151;">
+
+            <button id="next-btn" class="btn-danger">
+                🔔 LLAMAR SIGUIENTE PACIENTE
+            </button>
+            <p style="margin-top: 20px; font-size: 1.2rem; color: #000; font-weight: 500;">
+                Al presionar este botón, se cierra el turno actual y se llama al siguiente paciente en la lista.
+            </p>
+        </div>
+
+        <div class="upcoming-list">
+            <h3>⏳ PACIENTES EN SALA DE ESPERA:</h3>
+            <ul id="admin-queue-list">
+                <!-- Lista dinámica -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://bvrwlgxiwijytlswoucj.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cndsZ3hpd2lqeXRsc3dvdWNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1ODA4MjAsImV4cCI6MjA4NjE1NjgyMH0.4cptiH7w6k3PtCD8O8SDUOcytY5nXrIdjWZjaBa22m8";
+
+        const supabaseAdmin = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const turnNumEl = document.getElementById("admin-turn-number");
+        const petNameEl = document.getElementById("admin-pet-name");
+        const queueListEl = document.getElementById("admin-queue-list");
+        const nextBtn = document.getElementById("next-btn");
+        async function init() {
+            await fetchStatus();
+
+            supabaseAdmin
+                .channel('admin:turns')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'turns' }, payload => {
+                    fetchStatus();
+                })
+                .subscribe();
+        }
+
+        async function fetchStatus() {
+            const { data: serving } = await supabaseAdmin
+                .from('turns')
+                .select('id, pet_name')
+                .eq('status', 'serving')
+                .limit(1)
+                .maybeSingle();
+
+            const { data: waiting } = await supabaseAdmin
+                .from('turns')
+                .select('id, pet_name')
+                .eq('status', 'waiting')
+                .order('created_at', { ascending: true })
+                .limit(10);
+
+            updateUI(serving, waiting);
+        }
+
+        function updateUI(serving, waiting) {
+            if (serving) {
+                turnNumEl.textContent = serving.id;
+                petNameEl.textContent = serving.pet_name;
+            } else {
+                turnNumEl.textContent = "--";
+                petNameEl.textContent = "Sin paciente actual";
+            }
+
+            queueListEl.innerHTML = "";
+            if (waiting && waiting.length > 0) {
+                waiting.forEach(t => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<strong>#${t.id}</strong> ${t.pet_name}`;
+                    queueListEl.appendChild(li);
+                });
+            } else {
+                queueListEl.innerHTML = "<li style='color: #aaa'>Sala vacía.</li>";
+            }
+        }
+
+                nextBtn.addEventListener("click", async () => {
+            if (!confirm("¿Llamar al siguiente paciente?")) return;
+
+            nextBtn.disabled = true;
+            nextBtn.textContent = "Procesando...";
+
+            const { data, error } = await supabaseAdmin.rpc('fn_advance_queue', {
+                p_secret_code: 'DEVON_VET'
+            });
+
+            if (error) {
+                alert("Error: " + error.message);
+            }
+
+            nextBtn.disabled = false;
+            nextBtn.textContent = "LLAMAR SIGUIENTE PACIENTE 🔔";
+        });
+
+        init();
+    </script>
+</body>
+
+</html>

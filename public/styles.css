@@ -1,0 +1,367 @@
+/* DEVON TURNOS - Estilos optimizados para personas mayores (80+ años) */
+
+:root {
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --text: #000000;
+  --bg: #ffffff;
+  --bg-light: #f8fafc;
+  --border: #374151;
+  --success: #15803d;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --contrast-bg: #f3f4f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-light);
+  color: var(--text);
+  line-height: 1.8;
+  font-size: clamp(16px, 4vw, 20px);
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* Join Section */
+#join-section {
+  text-align: center;
+  padding: 50px 30px;
+}
+
+#join-section h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: 20px;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+#join-section p {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  margin-bottom: 40px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.join-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.join-form input {
+  padding: 20px;
+  border: 3px solid var(--border);
+  border-radius: 12px;
+  font-size: clamp(16px, 4vw, 18px);
+  transition: border-color 0.3s;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 44px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.join-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  border-width: 4px;
+}
+
+.join-form label {
+  font-size: clamp(16px, 4vw, 18px);
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: 3px solid var(--primary-dark);
+  padding: 25px 40px;
+  border-radius: 15px;
+  font-size: clamp(16px, 4.5vw, 20px);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 60px;
+  min-width: 44px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Status Section */
+.hidden {
+  display: none !important;
+}
+
+.status-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.now-serving {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  border: 3px solid var(--border);
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.now-serving h2 {
+  margin: 0 0 25px 0;
+  font-size: 1.8rem;
+  color: var(--text);
+  font-weight: bold;
+}
+
+.big-number {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: bold;
+  color: var(--primary);
+  margin: 20px 0;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.pet-name {
+  font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  color: var(--text);
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.my-turn-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  border: 4px solid var(--primary);
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.my-turn-card h3 {
+  margin: 0 0 20px 0;
+  color: var(--primary);
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.turn-number {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: bold;
+  color: var(--primary);
+  margin: 15px 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Queue Section */
+.queue-section {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  border: 3px solid var(--border);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.queue-section h3 {
+  margin: 0 0 30px 0;
+  color: var(--text);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.queue-list li {
+  padding: 20px;
+  border-bottom: 3px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  background: var(--contrast-bg);
+  margin-bottom: 10px;
+  border-radius: 12px;
+}
+
+.queue-list li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.queue-list li span:first-child {
+  font-weight: bold;
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.queue-list li span:last-child {
+  font-size: 18px;
+  color: var(--text);
+}
+
+/* Footer */
+#app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 25px;
+  border-top: 4px solid var(--border);
+  box-shadow: 0 -8px 16px rgba(0,0,0,0.15);
+  text-align: center;
+  display: none;
+}
+
+.help-btn {
+  background: var(--success);
+  color: white;
+  border: 3px solid var(--success);
+  padding: 20px 30px;
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 18px;
+  min-height: 60px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.help-btn:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.help-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Modern Responsive Design - Fluid approach with minimal breakpoints */
+
+/* Small screens - layout adjustments only */
+@media (max-width: 768px) {
+  .container {
+    padding: clamp(10px, 3vw, 20px);
+    max-width: 100%;
+  }
+  
+  #join-section {
+    padding: clamp(20px, 5vw, 40px) clamp(10px, 3vw, 20px);
+  }
+  
+  .status-display {
+    grid-template-columns: 1fr;
+    gap: clamp(15px, 4vw, 25px);
+  }
+  
+  .now-serving,
+  .my-turn-card,
+  .queue-section {
+    padding: clamp(20px, 5vw, 30px);
+  }
+  
+  .join-form {
+    gap: clamp(15px, 4vw, 20px);
+  }
+  
+  .queue-list li {
+    padding: clamp(12px, 3vw, 15px);
+    font-size: clamp(14px, 3.5vw, 16px);
+  }
+  
+  .queue-list li span:first-child {
+    font-size: clamp(16px, 4vw, 18px);
+  }
+  
+  .queue-list li span:last-child {
+    font-size: clamp(14px, 3.5vw, 16px);
+  }
+}
+
+/* Very small screens - additional adjustments */
+@media (max-width: 480px) {
+  .queue-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .btn-primary {
+    padding: clamp(15px, 4vw, 20px) clamp(10px, 3vw, 15px);
+  }
+  
+  .help-btn {
+    padding: clamp(12px, 3vw, 18px) clamp(8px, 2vw, 12px);
+  }
+}
+
+/* Extra large text for better accessibility */
+@media (min-width: 1200px) {
+  body {
+    font-size: 20px;
+  }
+  
+  .big-number {
+    font-size: 6rem;
+  }
+  
+  .turn-number {
+    font-size: 4rem;
+  }
+}
+
+/* High contrast mode for users with vision impairments */
+@media (prefers-contrast: high) {
+  :root {
+    --primary: #0000ff;
+    --primary-dark: #000080;
+    --text: #000000;
+    --bg: #ffffff;
+    --border: #000000;
+  }
+  
+  .btn-primary,
+  .help-btn {
+    border-width: 4px;
+  }
+}

@@ -49,7 +49,7 @@ async function fetchQueueStatus() {
   // Get current serving
   const { data: serving } = await supabaseClient
     .from('turns')
-    .select('id, pet_name')
+    .select('id, pet_name, owner_name')
     .eq('status', 'serving')
     .limit(1)
     .maybeSingle();
@@ -57,7 +57,7 @@ async function fetchQueueStatus() {
   // Get waiting list
   const { data: waiting } = await supabaseClient
     .from('turns')
-    .select('id, pet_name')
+    .select('id, pet_name, owner_name')
     .eq('status', 'waiting')
     .order('created_at', { ascending: true })
     .limit(100); // MOSTRAR TODOS (Scroll real)
@@ -114,7 +114,9 @@ function updateUI(serving, waiting) {
         li.style.color = "#2b6cb0";
       }
       
-      li.innerHTML = `<span>#${turn.id}</span> <span>${turn.pet_name}</span>`;
+      // Mostrar nombre de mascota y dueño
+      const ownerName = turn.owner_name ? turn.owner_name : 'Sin dueño';
+      li.innerHTML = `<span>#${turn.id}</span> <span>${turn.pet_name}</span><span class="owner-name">- ${ownerName}</span>`;
       queueList.appendChild(li);
     });
   } else {
